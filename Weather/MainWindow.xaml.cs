@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using System.Windows.Controls;
-using Weather.MVVM.Model;
+using Weather.MVVM.ViewModel;
 using Weather.MVVM;
 using MySql.Data.MySqlClient;
 using System;
@@ -29,7 +29,7 @@ namespace Weather
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string area1 = Area1ComboBox.SelectedItem.ToString().Split(" ")[1]; // Area1 콤보박스 선택값
-            string area2 = Area2ComboBox.SelectedValue.ToString(); // Area2 콤보박스 선택값
+            string area2 = Area2ComboBox.SelectedValue.ToString();              // Area2 콤보박스 선택값
 
             using (var ctx = new MariaContext())
             {
@@ -77,8 +77,8 @@ namespace Weather
             MySqlConnection conn = new MySqlConnection(connStr); 
             var bl = new MySqlBulkLoader(conn);
             bl.TableName = "area";
-            bl.FieldTerminator = ",";      // 열 구분자
-            bl.LineTerminator = "\r\n";        // 줄 구분자
+            bl.FieldTerminator = ",";      // 열 구분
+            bl.LineTerminator = "\r\n";    // 줄 구분
             bl.FileName = "D:/area.csv";
             bl.NumberOfLinesToSkip = 1;
             var inserted = bl.Load();
@@ -95,7 +95,6 @@ namespace Weather
 
             using (var ctx = new MariaContext())
             {
-                var buffer = new List<ViewItem>();
                 var list = (from a in ctx.Area where a.area1 == area1 && a.area2 != "" && a.area3 == "" select a.area2).ToList();
 
                 foreach (var l in list)
@@ -106,6 +105,24 @@ namespace Weather
                 Area2ComboBox.SelectedIndex = 0;
 
             }
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("In other words, hold my hand");
+
+            WebApi wa  = new WebApi();
+            string url = wa.GenerateUrl(55,127);
+            Debug.WriteLine(url);
+            var data = wa.GetApi(url);
+
+            //parsing
+
+            // ui 
+
+            Debug.WriteLine(wa.ToString());
+
+            Debug.WriteLine("In other words, baby, kiss me");
         }
     }
 }

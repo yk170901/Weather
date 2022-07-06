@@ -4,12 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Weather"
+        xmlns:vm="clr-namespace:Weather.MVVM.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         WindowStyle="None"
         ResizeMode="NoResize"
         Background="Transparent"
         AllowsTransparency="True">
+    <Window.DataContext>
+        <vm:MainPageViewModel/>
+    </Window.DataContext>
     <Border Background="#FFACCBD8"
             CornerRadius="20">
 
@@ -86,13 +90,6 @@
                       FontWeight="Bold"
                       HorizontalContentAlignment="Center"
                       VerticalContentAlignment="Center">
-
-                <!--이런 하드코딩 말고 로직을 짜서
-                자동으로 콤보 아이템이 생성되게 만드는
-                방식 찾기
-                
-                    특히나 시군구는 어떤 시도가 골라졌냐에 따라
-                    다르게 나와야 함-->
                 <ComboBoxItem/>
             </ComboBox>
 
@@ -113,6 +110,15 @@
                     FontSize="14"
                     FontWeight="bold"
                     HorizontalAlignment="right" Click="Button_Click_1"/>
+
+
+            <Button Grid.Column="0"
+                    Grid.Row="1"
+                    Width="50"
+                    Height="30"
+                    Content="vm test"
+                    Background="Gold"
+                    FontSize="13" Click="Button_Click_2"/>
 
             <Border Grid.Column="1"
                     Grid.Row="1"

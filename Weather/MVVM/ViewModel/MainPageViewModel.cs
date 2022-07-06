@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Weather.MVVM.ViewModel
 {
-    internal class MainViewModel
+    public class MainPageViewModel
     {
+
     }
 }
