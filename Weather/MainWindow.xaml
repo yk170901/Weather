@@ -5,8 +5,213 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Weather"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="450" Width="800"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Background="Transparent"
+        AllowsTransparency="True">
+    <Border Background="#FFACCBD8"
+            CornerRadius="20">
 
-    </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="300"/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+
+
+            <TextBlock FontSize="28"
+                       FontWeight="bold"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Text="기상예보"
+                       Foreground="#FF4E5686"/>
+
+            <ComboBox Grid.Column="1"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Width="150"
+                      Height="40"
+                      Background="AliceBlue"
+                      IsEditable="False"
+                      Name="Area1ComboBox"
+                      Foreground="#FF0A3352"
+                      FontSize="20"
+                      FontWeight="Bold"
+                      HorizontalContentAlignment="Center"
+                      VerticalContentAlignment="Center">
+
+                <!--이런 하드코딩 말고 로직을 짜서
+                자동으로 콤보 아이템이 생성되게 만드는
+                방식 찾기-->
+                <ComboBoxItem Content="서울특별시"
+                              IsSelected="True"/>
+                <ComboBoxItem Content="부산광역시"/>
+                <ComboBoxItem Content="대구광역시"/>
+                <ComboBoxItem Content="인천광역시"/>
+                <ComboBoxItem Content="광주광역시"/>
+                <ComboBoxItem Content="대전광역시"/>
+                <ComboBoxItem Content="울산광역시"/>
+                <ComboBoxItem Content="세종특별자치시"/>
+                <ComboBoxItem Content="경기도"/>
+                <ComboBoxItem Content="강원도"/>
+                <ComboBoxItem Content="충청북도"/>
+                <ComboBoxItem Content="충청남도"/>
+                <ComboBoxItem Content="전라북도"/>
+                <ComboBoxItem Content="전라남도"/>
+                <ComboBoxItem Content="경상북도"/>
+                <ComboBoxItem Content="경상남도"/>
+                <ComboBoxItem Content="제주특별자치도"/>
+            </ComboBox>
+
+            <ComboBox Grid.Column="2"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Width="150"
+                      Height="40"
+                      Background="AliceBlue"
+                      IsEditable="False"
+                      Name="Area2ComboBox"
+                      Foreground="#FF274156"
+                      FontSize="20"
+                      FontWeight="Bold"
+                      HorizontalContentAlignment="Center"
+                      VerticalContentAlignment="Center">
+
+                <!--이런 하드코딩 말고 로직을 짜서
+                자동으로 콤보 아이템이 생성되게 만드는
+                방식 찾기
+                
+                    특히나 시군구는 어떤 시도가 골라졌냐에 따라
+                    다르게 나와야 함-->
+                <ComboBoxItem Content="종로구"
+                              IsSelected="True"/>
+            </ComboBox>
+
+            <Button Grid.Column="3"
+                    Width="70"
+                    Height="40"
+                    Content="찾기"
+                    Foreground="Beige"
+                    Background="#FF2C4658"
+                    FontSize="15"
+                    FontWeight="bold" Click="Button_Click"/>
+
+            <Button Grid.Column="3"
+                    Width="70"
+                    Height="30"
+                    Content="업데이트"
+                    Background="LightPink"
+                    FontSize="14"
+                    FontWeight="bold"
+                    HorizontalAlignment="right" Click="Button_Click_1"/>
+
+            <Border Grid.Column="1"
+                    Grid.Row="1"
+                    Background="White"
+                    Width="150"
+                    Height="200"
+                    VerticalAlignment="Top"
+                    CornerRadius="10"
+                    Margin="0,20">
+
+                <StackPanel>
+                    <Image Source="/Images/rainy.png"
+                           Width="80"/>
+                    <TextBlock Text="06월 27일 月"
+                               HorizontalAlignment="Center"
+                               FontSize="15"
+                               FontWeight="Bold"/>
+                    <TextBlock Text="흐림 / 소나기"
+                               HorizontalAlignment="Center"
+                               Margin="0,4"
+                               FontWeight="Bold"
+                               FontSize="13"/>
+
+                    <TextBlock Text="강수확률값 : 10%"
+                               HorizontalAlignment="Center"
+                               Margin="0,1"/>
+                    <TextBlock Text="최고기온값"
+                               HorizontalAlignment="Center"
+                               Margin="0,1"/>
+                    <TextBlock Text="최저기온값"
+                               HorizontalAlignment="Center"
+                               Margin="0,1"/>
+                </StackPanel>
+            </Border>
+
+
+            <Border Grid.Column="2"
+                    Grid.Row="1"
+                    Background="White"
+                    Width="150"
+                    Height="200"
+                    VerticalAlignment="Top"
+                    CornerRadius="10"
+                    Margin="0, 20">
+
+                <StackPanel>
+                    <Image Source="/Images/sunny.png"
+                           Width="80"/>
+                    <TextBlock Text="06월 28일 火"
+                               HorizontalAlignment="Center"
+                               FontSize="15"
+                               FontWeight="Bold"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="3"
+                    Grid.Row="1"
+                    Background="White"
+                    Width="150"
+                    Height="200"
+                    VerticalAlignment="Top"
+                    CornerRadius="10"
+                    Margin="0,20"
+                    >
+            </Border>
+            <DataGrid Grid.Column="3"
+                      Grid.Row="1"
+                      Name="dgridTest"
+                      Height="100"/>
+
+            <Label Grid.Column="1"
+                   Grid.Row="1"
+                   Content="오늘"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Bottom"
+                   FontSize="20"
+                   FontWeight="bold"
+                   Margin="0, 20"
+                   />
+            <Label Grid.Column="2"
+                   Grid.Row="1"
+                   Content="내일"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Bottom"
+                   FontSize="20"
+                   FontWeight="bold"
+                   Margin="0, 20"
+                   />
+            <Label Grid.Column="3"
+                   Grid.Row="1"
+                   Content="모레"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Bottom"
+                   FontSize="20"
+                   FontWeight="bold"
+                   Margin="0, 20"
+                   />
+        </Grid>
+
+
+    </Border>
 </Window>

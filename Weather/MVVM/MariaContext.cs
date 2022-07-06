@@ -13,12 +13,6 @@ namespace Weather.MVVM
 
         }
 
-        // DB에서 값 받아올 그릇인 VO 가져와서 변수명 지어주기.
-        // 그러나 OnModelCreating에서 쓰지 않을 거기 때문에 부르는 의미가 있나 싶음.
-        // MariaDbContextFactory가 MariaText를 제너릭으로 사용하는 DesignTimeDbContextFactory를 상속하여
-        // 이 클래스를 기준으로 DbContext를 만드므로 Model을 제대로 만들어야 할 거 같긴 하다.
-        // 선택지 1. 쓰지 만다
-        // 선택지 2. OnModelCreating을 이해하고 사용한다.
         public MariaContext(DbContextOptions<MariaContext> options) : base(options) // 부모 클래스의 생성자에 options를 넣은 걸 상속?
         {
         }
