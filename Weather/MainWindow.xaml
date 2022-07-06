@@ -47,13 +47,14 @@
                       FontSize="20"
                       FontWeight="Bold"
                       HorizontalContentAlignment="Center"
-                      VerticalContentAlignment="Center">
+                      VerticalContentAlignment="Center" SelectionChanged="Area1ComboBox_SelectionChanged">
 
                 <!--이런 하드코딩 말고 로직을 짜서
                 자동으로 콤보 아이템이 생성되게 만드는
                 방식 찾기-->
-                <ComboBoxItem Content="서울특별시"
+                <ComboBoxItem Content="선택해주세요"
                               IsSelected="True"/>
+                <ComboBoxItem Content="서울특별시"/>
                 <ComboBoxItem Content="부산광역시"/>
                 <ComboBoxItem Content="대구광역시"/>
                 <ComboBoxItem Content="인천광역시"/>
@@ -92,8 +93,7 @@
                 
                     특히나 시군구는 어떤 시도가 골라졌냐에 따라
                     다르게 나와야 함-->
-                <ComboBoxItem Content="종로구"
-                              IsSelected="True"/>
+                <ComboBoxItem/>
             </ComboBox>
 
             <Button Grid.Column="3"

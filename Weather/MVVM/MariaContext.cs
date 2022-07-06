@@ -55,6 +55,13 @@ namespace Weather.MVVM
         {
             modelBuilder.Entity<AreaDatum>(entity =>
             {
+                entity.Property(e => e.areaId)
+                      .IsRequired()
+                      .HasMaxLength(5)
+                      .IsUnicode(false)
+                      .HasColumnName("area_id")
+                      .HasColumnType("VARCHAR");
+
                 entity.Property(e => e.area1)
                       .IsRequired()
                       .HasMaxLength(30)
@@ -71,12 +78,12 @@ namespace Weather.MVVM
                       .HasColumnType("VARCHAR")
                       .HasComment("2단계-시군구");
 
-                entity.Property(e => e.areaId)
-                      .IsRequired()
-                      .HasMaxLength(5)
+                entity.Property(e => e.area3)
+                      .HasMaxLength(30)
                       .IsUnicode(false)
-                      .HasColumnName("area_id")
-                      .HasColumnType("VARCHAR");
+                      .HasColumnName("area3")
+                      .HasColumnType("VARCHAR")
+                      .HasComment("3단계-동 (더미데이터)");
 
                 entity.Property(e => e.nx)
                       .IsRequired()
@@ -89,7 +96,6 @@ namespace Weather.MVVM
                       .HasMaxLength(5)
                       .HasColumnName("ny")
                       .HasColumnType("INT");
-
             });
 
             modelBuilder.Entity<WeatherDatum>(entity =>
