@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Weather.MariaDb;
 
@@ -10,9 +11,10 @@ using Weather.MariaDb;
 namespace Weather.Migrations
 {
     [DbContext(typeof(MariaContext))]
-    partial class MariaContextModelSnapshot : ModelSnapshot
+    [Migration("20220707021737_migration7")]
+    partial class migration7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,31 +70,10 @@ namespace Weather.Migrations
 
             modelBuilder.Entity("Weather.MariaDb.Datums.WeatherDatum", b =>
                 {
-                    b.Property<string>("category")
-                        .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("VARCHAR(5)")
-                        .HasColumnName("category")
-                        .HasComment("자료구분문자");
-
                     b.Property<DateTime>("fcstDate")
                         .HasColumnType("DATE")
                         .HasColumnName("fcst_date")
                         .HasComment("예보일자");
-
-                    b.Property<string>("fcstTime")
-                        .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("VARCHAR(5)")
-                        .HasColumnName("fcst_time")
-                        .HasComment("예보시간");
-
-                    b.Property<string>("fcstValue")
-                        .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("VARCHAR(5)")
-                        .HasColumnName("fcst_value")
-                        .HasComment("예보값");
 
                     b.ToTable("Weather");
                 });

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Weather.MariaDb;
 
@@ -10,9 +11,10 @@ using Weather.MariaDb;
 namespace Weather.Migrations
 {
     [DbContext(typeof(MariaContext))]
-    partial class MariaContextModelSnapshot : ModelSnapshot
+    [Migration("20220707022009_migration9")]
+    partial class migration9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,8 +84,7 @@ namespace Weather.Migrations
 
                     b.Property<string>("fcstTime")
                         .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("VARCHAR(5)")
+                        .HasColumnType("VARCHAR(48)")
                         .HasColumnName("fcst_time")
                         .HasComment("예보시간");
 

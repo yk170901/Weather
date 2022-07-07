@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Net;
-using System.Net.Http;
 using System.IO;
 using System.Diagnostics;
 using System.Xml;
+using Weather.MariaDb;
+using Microsoft.EntityFrameworkCore;
 
 namespace Weather.Controllers
 {
@@ -13,15 +14,17 @@ namespace Weather.Controllers
         public string GenerateUrl(int nx, int ny)
         {
             string serviceKey = "VRr9rp4jRHi1ssHGqFnhUx9KVqgvYvKOEtrRUSO3EIFE7x49nw%2FUK7P7IuXpabMz8Nwe44%2BgIG%2FrBY34WQnxMA%3D%3D";
-            string baseDate = "20220706"; // 오늘의 날짜를 얻는 메소드를 사용하여 날짜를 얻은 후 yyyymmdd형태로 컨버팅하여 사용하기
+            string baseDate = DateTime.Now.ToString("yyyyMMdd");
 
             string url = $"http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey={serviceKey}&dataType=XML&numOfRows=1000&pageNo=1&base_date={baseDate}&base_time=0500&nx={nx}&ny={ny}";
+
+            Debug.WriteLine("GenerateUrl DONE");
 
             return url;
         }
 
         // 메소드 : 만들어진 URL로 API로부터 값을 얻어오는 메소드
-        public string GetApi(string url)
+        public string GetWeatherApi(string url)
         {
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "GET";
@@ -34,11 +37,13 @@ namespace Weather.Controllers
                 results = reader.ReadToEnd();
             }
 
+            Debug.WriteLine("GetWeatherApi DONE");
+
             return results;
         }
 
-        // 메소드 : API로 얻은 값을 파싱하여 DB에 넣기 좋은 형태로 자르는 메소드
-        public void ParseXml(string results)
+        // 메소드 : API로 얻은 값을 파싱하여 DB에 넣는 메소드
+        public void ParseXmlAndPutInDb(string results)
         {
             XmlDocument xml = new XmlDocument();
 
@@ -52,23 +57,40 @@ namespace Weather.Controllers
                 return;
             }
 
-            XmlNodeList nodeList = xml.GetElementsByTagName("items");
+            XmlNodeList nodeList = xml.GetElementsByTagName("item");
 
-            foreach(XmlNode node in nodeList)
+            using (var ctx = new MariaContext())
             {
+                var conn = ctx.Database.GetDbConnection();
 
+                foreach (XmlNode node in nodeList)
+                {
+                    string category = node["category"].InnerText;
+                    if (category == "POP" || category == "PTY" || category == "SKY" || category == "TMP" || category == "REH")
+                    {
+                        ctx.Database.ExecuteSqlRaw($"INSERT INTO weather(fcst_date, category, fcst_time, fcst_value)" +
+                            $"VALUES({node["fcstDate"].InnerText}, '{category}', '{node["fcstTime"].InnerText}', '{node["fcstValue"].InnerText}')");
+                        //ctx.SaveChanges();
+                    }
+                    else continue;
+                }
             }
 
-
+            Debug.WriteLine("ParseXmlAndPutInDb DONE");
         }
-
-
-        // 메소드 : 파싱된 API 값을 DB에 넣는 메소드
-
-        // 메소드 : DB에 새로운 값이 넣어졌다며 View에게 알리는 메소드
 
         // 메소드 : View가 (새로운) 데이터를 요청하면 (새로운) 데이터를 밀어 넣어주는 메소드
 
-        // 메소드 : 기존에 있던 DB의 데이터를 지우는 메소드
+        // 메소드 : 새로운 Weather 데이터를 넣기 전 기존 데이터 지우기
+        public void DeleteWeatherDataBeforeInsertion()
+        {
+            using (var ctx = new MariaContext())
+            {
+                var conn = ctx.Database.GetDbConnection();
+                ctx.Database.ExecuteSqlRaw("DELETE FROM weather");
+            }
+
+            Debug.WriteLine("DeleteWeatherDataBeforeInsertion DONE");
+        }
     }
 }

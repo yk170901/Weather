@@ -5,49 +5,71 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Weather"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Title="MainWindow" Height="900" Width="1700"
         WindowStyle="None"
         ResizeMode="NoResize"
         Background="Transparent"
-        AllowsTransparency="True">
+        AllowsTransparency="True"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        MouseLeftButtonUp="Window_MouseLeftButtonUp"
+        >
     <Border Background="#FFACCBD8"
             CornerRadius="20">
-
+        
         <Grid>
+
+            
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="300"/>
-                <RowDefinition Height="100"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.4*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.4*"/>
+                <RowDefinition Height="0.4*"/>
             </Grid.RowDefinitions>
 
+            <Image 
+                Grid.ColumnSpan="6"
+                Grid.RowSpan="4"
+                Source="/Images/sunny.png"
+                Width="550"/>
 
-            <TextBlock FontSize="28"
-                       FontWeight="bold"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
-                       Text="기상예보"
-                       Foreground="#FF4E5686"/>
-
-            <ComboBox Grid.Column="1"
+            <ComboBox Grid.Column="5"
+                      Grid.ColumnSpan="4"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
-                      Width="150"
-                      Height="40"
+                      Width="300"
+                      Height="70"
                       Background="AliceBlue"
                       IsEditable="False"
                       Name="Area1ComboBox"
                       Foreground="#FF0A3352"
-                      FontSize="15"
+                      FontSize="20"
                       FontWeight="Bold"
                       HorizontalContentAlignment="Center"
-                      VerticalContentAlignment="Center" SelectionChanged="Combo1Changed">
+                      VerticalContentAlignment="Center"
+                      SelectionChanged="Combo1Changed">
 
                 <!--이런 하드코딩 말고 로직을 짜서
                 자동으로 콤보 아이템이 생성되게 만드는
@@ -73,129 +95,112 @@
                 <ComboBoxItem Content="제주특별자치도"/>
             </ComboBox>
 
-            <ComboBox Grid.Column="2"
+            <ComboBox Grid.Column="9"
+                      Grid.ColumnSpan="4"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
-                      Width="150"
-                      Height="40"
+                      Width="300"
+                      Height="70"
                       Background="AliceBlue"
                       IsEditable="False"
                       Name="Area2ComboBox"
                       Foreground="#FF274156"
-                      FontSize="15"
+                      FontSize="20"
                       FontWeight="Bold"
                       HorizontalContentAlignment="Center"
                       VerticalContentAlignment="Center">
                 <ComboBoxItem/>
             </ComboBox>
 
-            <Button Grid.Column="3"
-                    Width="70"
-                    Height="40"
+            <Button Grid.Column="13"
+                    Grid.ColumnSpan="2"
+                    Width="130"
+                    Height="70"
                     Content="검색"
                     Foreground="Beige"
-                    Background="#FF2C4658"
-                    FontSize="15"
-                    FontWeight="bold" Click="Search"/>
+                    Background="black"
+                    FontSize="20"
+                    FontWeight="bold"
+                    Click="Search"/>
 
-            <Border Grid.Column="1"
-                    Grid.Row="1"
-                    Background="White"
-                    Width="150"
-                    Height="200"
-                    VerticalAlignment="Top"
-                    CornerRadius="10"
-                    Margin="0,20">
+            <TextBlock Grid.Column="12"
+                       Grid.Row="1"
+                       Grid.ColumnSpan="3"
+                       FontSize="30"
+                       Text="2022년 7월 7일 정보"
+                       />
+            
+            <TextBlock Grid.Column="6"
+                       Grid.Row="2"
+                       Grid.ColumnSpan="6"
+                       FontSize="40"
+                       FontWeight="bold"
+                       Padding="10"
+                       Text="지금은 비가 오지 않습니다"
+                       />
 
-                <StackPanel>
-                    <Image Source="/Images/rainy.png"
-                           Width="80"/>
-                    <TextBlock Text="06월 27일 月"
-                               HorizontalAlignment="Center"
-                               FontSize="15"
-                               FontWeight="Bold"/>
-                    <TextBlock Text="흐림 / 소나기"
-                               HorizontalAlignment="Center"
-                               Margin="0,4"
-                               FontWeight="Bold"
-                               FontSize="13"/>
+            <TextBlock Grid.Column="6"
+                       Grid.Row="2"
+                       Grid.ColumnSpan="4"
+                       VerticalAlignment="Bottom"
+                       FontSize="35"
+                       Margin="0,0,0,180"
+                       Padding="20"
+                       Text="온도는..."/>
 
-                    <TextBlock Text="강수확률값 : 10%"
-                               HorizontalAlignment="Center"
-                               Margin="0,1"/>
-                    <TextBlock Text="최고기온값"
-                               HorizontalAlignment="Center"
-                               Margin="0,1"/>
-                    <TextBlock Text="최저기온값"
-                               HorizontalAlignment="Center"
-                               Margin="0,1"/>
-                </StackPanel>
-            </Border>
+            <TextBlock Grid.Column="6"
+                       Grid.Row="2"
+                       Grid.ColumnSpan="4"
+                       VerticalAlignment="Bottom"
+                       FontSize="35"
+                       Padding="20"
+                       Margin="0,0,0,90"
+                       Text="강수확률은..."/>
 
+            <TextBlock Grid.Column="6"
+                       Grid.Row="2"
+                       Grid.ColumnSpan="4"
+                       VerticalAlignment="Bottom"
+                       FontSize="35"
+                       Padding="20"
+                       Text="습도는..."/>
 
-            <Border Grid.Column="2"
-                    Grid.Row="1"
-                    Background="White"
-                    Width="150"
-                    Height="200"
-                    VerticalAlignment="Top"
-                    CornerRadius="10"
-                    Margin="0, 20">
+            <TextBlock Grid.Column="11"
+                       Grid.Row="3"
+                       Grid.ColumnSpan="4"
+                       FontSize="38"
+                       FontWeight="bold"
+                       Text="서울특별시 종로구"
+                       Margin="0,0,30,0"
+                       HorizontalAlignment="Right"
+                       />
 
-                <StackPanel>
-                    <Image Source="/Images/sunny.png"
-                           Width="80"/>
-                    <TextBlock Text="06월 28일 火"
-                               HorizontalAlignment="Center"
-                               FontSize="15"
-                               FontWeight="Bold"/>
-                </StackPanel>
-            </Border>
+            <Border Background="LightGray"
+                    Grid.Row="4"
+                    Grid.ColumnSpan="15"/>
 
-            <Border Grid.Column="3"
-                    Grid.Row="1"
-                    Background="White"
-                    Width="150"
-                    Height="200"
-                    VerticalAlignment="Top"
-                    CornerRadius="10"
-                    Margin="0,20"
-                    >
-            </Border>
-            <DataGrid Grid.Column="3"
-                      Grid.Row="1"
-                      Name="dgridTest"
-                      Height="100"/>
-
-            <Label Grid.Column="1"
-                   Grid.Row="1"
-                   Content="오늘"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Bottom"
-                   FontSize="20"
-                   FontWeight="bold"
-                   Margin="0, 20"
-                   />
-            <Label Grid.Column="2"
-                   Grid.Row="1"
-                   Content="내일"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Bottom"
-                   FontSize="20"
-                   FontWeight="bold"
-                   Margin="0, 20"
-                   />
-            <Label Grid.Column="3"
-                   Grid.Row="1"
-                   Content="모레"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Bottom"
-                   FontSize="20"
-                   FontWeight="bold"
-                   Margin="0, 20"
-                   />
+            <Button  Grid.Column="1"
+                     Grid.Row="4"
+                     Content="오늘"
+                     Foreground="Black"
+                     Background="LightGray"
+                     FontSize="35"
+                     />
+            <Button  Grid.Column="2"
+                     Grid.Row="4"
+                     Content="내일"
+                     Foreground="Black"
+                     Background="LightGray"
+                     FontSize="35"
+                     />
+            <Button  Grid.Column="3"
+                     Grid.Row="4"
+                     Content="모레"
+                     Foreground="Black"
+                     Background="LightGray"
+                     FontSize="35"
+                     />
         </Grid>
-
 
     </Border>
 </Window>

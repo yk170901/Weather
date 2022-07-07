@@ -8,15 +8,13 @@ namespace Weather.MariaDb
 {
     public class MariaContext : DbContext
     {
-        public MariaContext()
-        {
-
-        }
+        public MariaContext() { }
 
         public MariaContext(DbContextOptions<MariaContext> options) : base(options) // 부모 클래스의 생성자에 options를 넣은 걸 상속?
-        {
-        }
+        { }
+
         public virtual DbSet<AreaDatum> Area { get; set; }
+        
         public virtual DbSet<WeatherDatum> Weather { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -102,24 +100,18 @@ namespace Weather.MariaDb
             {
                 entity.HasNoKey();
 
-                entity.Property(e => e.baseDate)
-                      .IsRequired()
-                      .HasColumnName("base_date")
-                      .HasColumnType("DATE")
-                      .HasComment("발표일자");
-
-                entity.Property(e => e.baseTime)
-                      .IsRequired()
-                      .HasColumnName("base_time")
-                      .HasMaxLength(5)
-                      .HasColumnType("VARCHAR")
-                      .HasComment("발표시각");
-
                 entity.Property(e => e.fcstDate)
                       .IsRequired()
                       .HasColumnName("fcst_date")
                       .HasColumnType("DATE")
                       .HasComment("예보일자");
+
+                entity.Property(e => e.fcstTime)
+                      .IsRequired()
+                      .HasColumnName("fcst_time")
+                      .HasColumnType("VARCHAR")
+                      .HasMaxLength(5)
+                      .HasComment("예보시간");
 
                 entity.Property(e => e.category)
                       .IsRequired()
@@ -136,7 +128,5 @@ namespace Weather.MariaDb
                       .HasComment("예보값");
             });
         }
-
-
     }
 }
