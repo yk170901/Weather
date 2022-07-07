@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using MySqlConnector;
 
-namespace Weather.MVVM
+namespace Weather.MariaDb
 {
     public class MariaDbContextFactory : IDesignTimeDbContextFactory<MariaContext>
     {

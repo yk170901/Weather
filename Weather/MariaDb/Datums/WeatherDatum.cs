@@ -3,7 +3,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace Weather.MVVM.Model
+namespace Weather.MariaDb.Datums
 {
     [Table("Weather")]
     public partial class WeatherDatum

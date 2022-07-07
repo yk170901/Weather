@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Weather.MVVM.ViewModel
+namespace Weather.Controllers
 {
-    public class MainPageViewModel
+    internal class ViewController
     {
-
+        public void Test()
+        {
+        }
     }
 }

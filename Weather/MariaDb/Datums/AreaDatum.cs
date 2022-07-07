@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace Weather.MVVM.Model
+namespace Weather.MariaDb.Datums
 {
     // attribute
     [Table("Area")] // System.ComponentModel.DataAnnotations.Schema;

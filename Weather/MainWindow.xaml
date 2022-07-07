@@ -4,16 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Weather"
-        xmlns:vm="clr-namespace:Weather.MVVM.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         WindowStyle="None"
         ResizeMode="NoResize"
         Background="Transparent"
         AllowsTransparency="True">
-    <Window.DataContext>
-        <vm:MainPageViewModel/>
-    </Window.DataContext>
     <Border Background="#FFACCBD8"
             CornerRadius="20">
 
@@ -48,10 +44,10 @@
                       IsEditable="False"
                       Name="Area1ComboBox"
                       Foreground="#FF0A3352"
-                      FontSize="20"
+                      FontSize="15"
                       FontWeight="Bold"
                       HorizontalContentAlignment="Center"
-                      VerticalContentAlignment="Center" SelectionChanged="Area1ComboBox_SelectionChanged">
+                      VerticalContentAlignment="Center" SelectionChanged="Combo1Changed">
 
                 <!--이런 하드코딩 말고 로직을 짜서
                 자동으로 콤보 아이템이 생성되게 만드는
@@ -86,7 +82,7 @@
                       IsEditable="False"
                       Name="Area2ComboBox"
                       Foreground="#FF274156"
-                      FontSize="20"
+                      FontSize="15"
                       FontWeight="Bold"
                       HorizontalContentAlignment="Center"
                       VerticalContentAlignment="Center">
@@ -96,29 +92,11 @@
             <Button Grid.Column="3"
                     Width="70"
                     Height="40"
-                    Content="찾기"
+                    Content="검색"
                     Foreground="Beige"
                     Background="#FF2C4658"
                     FontSize="15"
-                    FontWeight="bold" Click="Button_Click"/>
-
-            <Button Grid.Column="3"
-                    Width="70"
-                    Height="30"
-                    Content="업데이트"
-                    Background="LightPink"
-                    FontSize="14"
-                    FontWeight="bold"
-                    HorizontalAlignment="right" Click="Button_Click_1"/>
-
-
-            <Button Grid.Column="0"
-                    Grid.Row="1"
-                    Width="50"
-                    Height="30"
-                    Content="vm test"
-                    Background="Gold"
-                    FontSize="13" Click="Button_Click_2"/>
+                    FontWeight="bold" Click="Search"/>
 
             <Border Grid.Column="1"
                     Grid.Row="1"

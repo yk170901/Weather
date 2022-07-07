@@ -1,10 +1,10 @@
 ﻿using System;
 using MySqlConnector;
 using Microsoft.EntityFrameworkCore;
-using Weather.MVVM.Model;
+using Weather.MariaDb.Datums;
 using System.Collections.Generic;
 
-namespace Weather.MVVM
+namespace Weather.MariaDb
 {
     public class MariaContext : DbContext
     {
