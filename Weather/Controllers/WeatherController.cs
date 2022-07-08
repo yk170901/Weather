@@ -28,9 +28,11 @@ namespace Weather.Controllers
         {
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "GET";
+            request.Timeout = 1000000;
 
             string results = string.Empty;
             HttpWebResponse response;
+
             using (response = request.GetResponse() as HttpWebResponse)
             {
                 StreamReader reader = new StreamReader(response.GetResponseStream());

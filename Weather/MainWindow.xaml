@@ -13,12 +13,10 @@
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         MouseLeftButtonUp="Window_MouseLeftButtonUp"
         >
-    <Border Background="#FFACCBD8"
+    <Border Background="#FF171625"
             CornerRadius="20">
-        
-        <Grid>
 
-            
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -61,11 +59,10 @@
                       VerticalAlignment="Center"
                       Width="300"
                       Height="70"
-                      Background="AliceBlue"
                       IsEditable="False"
                       Name="Area1ComboBox"
                       Foreground="#FF0A3352"
-                      FontSize="20"
+                      FontSize="30"
                       FontWeight="Bold"
                       HorizontalContentAlignment="Center"
                       VerticalContentAlignment="Center"
@@ -105,7 +102,7 @@
                       IsEditable="False"
                       Name="Area2ComboBox"
                       Foreground="#FF274156"
-                      FontSize="20"
+                      FontSize="30"
                       FontWeight="Bold"
                       HorizontalContentAlignment="Center"
                       VerticalContentAlignment="Center">
@@ -117,9 +114,8 @@
                     Width="130"
                     Height="70"
                     Content="검색"
-                    Foreground="Beige"
-                    Background="black"
-                    FontSize="20"
+                    Background="#FF798AEA"
+                    FontSize="30"
                     FontWeight="bold"
                     Click="Search"/>
 
@@ -127,15 +123,27 @@
                        Grid.Row="1"
                        Grid.ColumnSpan="3"
                        FontSize="30"
-                       Text="2022년 7월 7일 정보"
+                       Foreground="#FFC7C7F9"
+                       Text="오늘의 날짜"
                        />
-            
+
+            <Border Grid.Column="5"
+                    Grid.Row="1"
+                    Grid.ColumnSpan="7"
+                    Grid.RowSpan="2"
+                    Background="#FF282246"
+                    Width="650"
+                    Margin="71,50,72,10"
+                    CornerRadius="50"
+                    />
+
             <TextBlock Grid.Column="6"
                        Grid.Row="2"
                        Grid.ColumnSpan="6"
-                       FontSize="40"
+                       FontSize="35"
                        FontWeight="bold"
-                       Padding="10"
+                       Padding="0, 20"
+                       Foreground="#FF798AEA"
                        Text="지금은 비가 오지 않습니다"
                        />
 
@@ -144,8 +152,10 @@
                        Grid.ColumnSpan="4"
                        VerticalAlignment="Bottom"
                        FontSize="35"
-                       Margin="0,0,0,180"
+                       Margin="0,0,0,190"
                        Padding="20"
+                       Foreground="#FFC7C7F9"
+                       FontWeight="Bold"
                        Text="온도는..."/>
 
             <TextBlock Grid.Column="6"
@@ -154,7 +164,9 @@
                        VerticalAlignment="Bottom"
                        FontSize="35"
                        Padding="20"
-                       Margin="0,0,0,90"
+                       Margin="0,0,0,105"
+                       Foreground="#FFC7C7F9"
+                       FontWeight="Bold"
                        Text="강수확률은..."/>
 
             <TextBlock Grid.Column="6"
@@ -162,10 +174,14 @@
                        Grid.ColumnSpan="4"
                        VerticalAlignment="Bottom"
                        FontSize="35"
+                       Margin="0,0,0,20"
                        Padding="20"
+                       Foreground="#FFC7C7F9"
+                       FontWeight="Bold"
                        Text="습도는..."/>
 
-            <TextBlock Grid.Column="11"
+            <TextBlock Name="Region"
+                       Grid.Column="11"
                        Grid.Row="3"
                        Grid.ColumnSpan="4"
                        FontSize="38"
@@ -173,33 +189,76 @@
                        Text="서울특별시 종로구"
                        Margin="0,0,30,0"
                        HorizontalAlignment="Right"
+                       Foreground="#FFC7C7F9"
                        />
 
-            <Border Background="LightGray"
+
+            <!-- 아래와 같이 반복적인 css적 element가
+             있으니 Theme에서 Resource dictionary를 만들어
+            관련 element를 통합 정의 하자-->
+            <Border Background="#FF798AEA"
                     Grid.Row="4"
                     Grid.ColumnSpan="15"/>
 
             <Button  Grid.Column="1"
                      Grid.Row="4"
                      Content="오늘"
-                     Foreground="Black"
-                     Background="LightGray"
+                     Background="#FF798AEA"
                      FontSize="35"
                      />
             <Button  Grid.Column="2"
                      Grid.Row="4"
                      Content="내일"
-                     Foreground="Black"
-                     Background="LightGray"
+                     Background="#FF798AEA"
                      FontSize="35"
                      />
             <Button  Grid.Column="3"
                      Grid.Row="4"
                      Content="모레"
-                     Foreground="Black"
-                     Background="LightGray"
+                     Background="#FF798AEA"
                      FontSize="35"
                      />
+
+            <ItemsControl Name="weatherList"
+                          Grid.ColumnSpan="15"
+                          Margin="20"
+                          Grid.Row="5"
+                          Grid.RowSpan="4"
+                          Panel.ZIndex="1"
+                          Background="#FF282246"
+                          >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Background="Wheat"
+                                    Height="65"
+                                    Width="100"
+                                    Margin="5">
+                            </Border>
+                            <StackPanel>
+                                <TextBlock Text="{Binding category}" Foreground="Wheat"/>
+                                <TextBlock Text="{Binding fcstDate}"/>
+                                <TextBlock Text="{Binding fcstTime}"/>
+                                <TextBlock Text="{Binding fcstValue}"/>
+                            </StackPanel>
+                            
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="{Binding category}"/>
+                                <TextBlock Text="{Binding fcstDate}"/>
+                                <TextBlock Text="{Binding fcstTime}"/>
+                                <TextBlock Text="{Binding fcstValue}"/>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Grid>
 
     </Border>

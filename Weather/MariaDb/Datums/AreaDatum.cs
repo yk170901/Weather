@@ -12,7 +12,7 @@ namespace Weather.MariaDb.Datums
         public string area1 { get; set; } // 1단계
         public string area2 { get; set; } // 2단계
         public string area3 { get; set; } // 3단계
-        public int nx { get; set; } // 격자 X
-        public int ny { get; set; } // 격자 Y
+        public byte nx { get; set; } // 격자 X
+        public byte ny { get; set; } // 격자 Y
     }
 }
