@@ -47,11 +47,11 @@
                 <RowDefinition Height="0.4*"/>
             </Grid.RowDefinitions>
 
-            <Image 
-                Grid.ColumnSpan="6"
-                Grid.RowSpan="4"
-                Source="/Images/sunny.png"
-                Width="550"/>
+            <Image Name="MainSKY"
+                   Grid.ColumnSpan="6"
+                   Grid.RowSpan="4"
+                   Source="/Images/sunny.png"
+                   Width="500"/>
 
             <ComboBox Grid.Column="5"
                       Grid.ColumnSpan="4"
@@ -66,7 +66,7 @@
                       FontWeight="Bold"
                       HorizontalContentAlignment="Center"
                       VerticalContentAlignment="Center"
-                      SelectionChanged="Combo1Changed">
+                      SelectionChanged="ChangeCombo2ForCombo1">
 
                 <!--이런 하드코딩 말고 로직을 짜서
                 자동으로 콤보 아이템이 생성되게 만드는
@@ -119,12 +119,14 @@
                     FontWeight="bold"
                     Click="Search"/>
 
-            <TextBlock Grid.Column="12"
+            <TextBlock Name="TimeDataCalled"
+                       Grid.Column="11"
                        Grid.Row="1"
-                       Grid.ColumnSpan="3"
+                       Grid.ColumnSpan="4"
+                       Margin="40,0"
                        FontSize="30"
+                       FontWeight="Bold"
                        Foreground="#FFC7C7F9"
-                       Text="오늘의 날짜"
                        />
 
             <Border Grid.Column="5"
@@ -137,7 +139,8 @@
                     CornerRadius="50"
                     />
 
-            <TextBlock Grid.Column="6"
+            <TextBlock Name="MainPTY"
+                       Grid.Column="6"
                        Grid.Row="2"
                        Grid.ColumnSpan="5"
                        FontSize="35"
@@ -147,7 +150,8 @@
                        Text="지금은 비가 오지 않습니다"
                        />
 
-            <TextBlock Grid.Column="6"
+            <TextBlock Name="MainTMP"
+                       Grid.Column="6"
                        Grid.Row="2"
                        Grid.ColumnSpan="4"
                        VerticalAlignment="Bottom"
@@ -158,7 +162,8 @@
                        FontWeight="Bold"
                        Text="온도는..."/>
 
-            <TextBlock Grid.Column="6"
+            <TextBlock Name="MainPOP"
+                       Grid.Column="6"
                        Grid.Row="2"
                        Grid.ColumnSpan="4"
                        VerticalAlignment="Bottom"
@@ -169,7 +174,8 @@
                        FontWeight="Bold"
                        Text="강수확률은..."/>
 
-            <TextBlock Grid.Column="6"
+            <TextBlock Name="MainREH"
+                       Grid.Column="6"
                        Grid.Row="2"
                        Grid.ColumnSpan="4"
                        VerticalAlignment="Bottom"
@@ -181,9 +187,9 @@
                        Text="습도는..."/>
 
             <TextBlock Name="Region"
-                       Grid.Column="11"
+                       Grid.Column="9"
                        Grid.Row="3"
-                       Grid.ColumnSpan="4"
+                       Grid.ColumnSpan="6"
                        FontSize="38"
                        FontWeight="bold"
                        Text="서울특별시 종로구"
@@ -207,7 +213,7 @@
                      Background="#FF798AEA"
                      FontSize="35"
                      FontWeight="Bold"
-                     Click="ChangeDaytoToday"
+                     Click="GetDataForToday"
                      />
             <Button  Name="tomorrow"
                      Grid.Column="2"
@@ -216,7 +222,7 @@
                      Background="#FF798AEA"
                      FontSize="35"
                      FontWeight="Bold"
-                     Click="ChangeDaytoTomorrow"
+                     Click="GetDataForTomorrow"
                      />
             <Button  Name="dayAfterTomorrow"
                      Grid.Column="3"
@@ -225,7 +231,7 @@
                      Background="#FF798AEA"
                      FontSize="35"
                      FontWeight="Bold"
-                     Click="ChangeDaytoTheDayAfterTomorrow"
+                     Click="GetDataForTheDayAfterTomorrow"
                      />
 
             <Border Grid.Row="5"

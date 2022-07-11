@@ -10,8 +10,8 @@ namespace Weather.MariaDb.Datums
     public class WeatherListDatum
     {
         public string fcstTime { get; set; }
+        public string TMP { get; set; } // 기온
         public string POP { get; set; } // 강수확률
         public string REH { get; set; } // 습도
-        public string TMP { get; set; } // 기온
     }
 }
