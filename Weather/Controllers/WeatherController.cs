@@ -16,7 +16,7 @@ namespace Weather.Controllers
             string serviceKey = "VRr9rp4jRHi1ssHGqFnhUx9KVqgvYvKOEtrRUSO3EIFE7x49nw%2FUK7P7IuXpabMz8Nwe44%2BgIG%2FrBY34WQnxMA%3D%3D";
             string baseDate = DateTime.Now.ToString("yyyyMMdd");
 
-            string url = $"http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey={serviceKey}&dataType=XML&numOfRows=1000&pageNo=1&base_date={baseDate}&base_time=0500&nx={nx}&ny={ny}";
+            string url = $"http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey={serviceKey}&dataType=XML&numOfRows=1000&pageNo=1&base_date={baseDate}&base_time=0200&nx={nx}&ny={ny}";
 
             Debug.WriteLine("GenerateUrl DONE");
 
@@ -39,6 +39,7 @@ namespace Weather.Controllers
                 results = reader.ReadToEnd();
             }
 
+            Debug.WriteLine(url);
             Debug.WriteLine("GetWeatherApi DONE");
 
             return results;
@@ -50,6 +51,8 @@ namespace Weather.Controllers
             XmlDocument xml = new XmlDocument();
 
             xml.LoadXml(results);
+
+            Debug.WriteLine("results : "+results);
 
             string resultMsg = xml.GetElementsByTagName("resultMsg")[0].InnerText;
 

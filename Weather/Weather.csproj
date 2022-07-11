@@ -15,6 +15,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Images\cloudy.png" />
+    <None Remove="Images\rainy.png" />
+    <None Remove="Images\sunny.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\cloudy.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\rainy.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\sunny.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="Theme\" />
   </ItemGroup>

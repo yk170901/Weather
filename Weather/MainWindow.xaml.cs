@@ -9,6 +9,7 @@ using Weather.Controllers;
 using System.Windows.Input;
 using Weather.MariaDb.Datums;
 using System.ComponentModel;
+using System.Windows.Media;
 
 namespace Weather
 {
@@ -16,13 +17,11 @@ namespace Weather
     {
 
         WeatherController weatherController = new WeatherController();
-
-        // public event PropertyChangedEventHandler? PropertyChanged;
+        Brush colorForDays = (Brush)new BrushConverter().ConvertFrom("#3104B4");
 
         public MainWindow()
         {
             InitializeComponent();
-            DataBindingTest();
         }
 
         // 메소드 : 윈도우 창 드래그 구현
@@ -31,8 +30,36 @@ namespace Weather
             this.DragMove(); }
         private void Window_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         { Cursor = Cursors.Arrow; }
-        
-        
+
+        private void ChangeDaytoToday(object sender, RoutedEventArgs e)
+        {
+            // 날짜와 상관없이 보려는 지역의 데이터는 같기 때문에 검색 버튼을 눌렀을 때처럼 좌표나 API부터 가져오지 않아도 된다.
+            AddWeatherImageAndDateData("오늘");
+            AddWeatherListData("오늘");
+
+            today.Foreground = colorForDays;
+            tomorrow.Foreground = Brushes.Black;
+            dayAfterTomorrow.Foreground = Brushes.Black;
+        }
+        private void ChangeDaytoTomorrow(object sender, RoutedEventArgs e)
+        {
+            AddWeatherImageAndDateData("내일");
+            AddWeatherListData("내일");
+
+            today.Foreground = Brushes.Black;
+            tomorrow.Foreground = colorForDays;
+            dayAfterTomorrow.Foreground = Brushes.Black;
+        }
+        private void ChangeDaytoTheDayAfterTomorrow(object sender, RoutedEventArgs e)
+        {
+            AddWeatherImageAndDateData("모레");
+            AddWeatherListData("모레");
+
+            today.Foreground = Brushes.Black;
+            tomorrow.Foreground = Brushes.Black;
+            dayAfterTomorrow.Foreground = colorForDays;
+        }
+
         private void Combo1Changed(object sender, SelectionChangedEventArgs e)
         {
             string area1 = Area1ComboBox.SelectedItem.ToString().Split(" ")[1]; // Area1 콤보박스 선택값
@@ -70,10 +97,13 @@ namespace Weather
             weatherController.DeleteWeatherDataBeforeInsertion();
             weatherController.ParseXmlAndPutInDb(results);
 
-            // ui
+            AddWeatherImageAndDateData("오늘");
+            AddWeatherListData("오늘");
 
+            today.Foreground = colorForDays;
 
-
+            Debug.WriteLine($" - - - Data for x={nxAndNy["nx"]} and {nxAndNy["ny"]} - - - ");
+            
             // 아래의 해당 지역 문장 바꾸기
             Region.Text = Area1ComboBox.SelectedItem.ToString().Split(" ")[1]+ " " + Area2ComboBox.SelectedItem.ToString();
         }
@@ -97,64 +127,93 @@ namespace Weather
             }
         }
 
-        /*// 메소드 : 실험. WeatherDatum의 형태로 데이터 나타내보기
-        private void DataBindingTest()
+        // 메소드 : 날짜에 따른 mysql의 select 조건 숫자 가져오기.
+        // 너무 간단한 작업이라 만들지 말까 싶었지만 메인 코드들을 더럽게 하고 만들고 싶지 않고,
+        // 유지보수 시 명확한 안내를 제공하기 위해 만듦 
+        private byte GetNumberForTheDay(string day)
         {
-            List<WeatherDatum> weatherDatum = new List<WeatherDatum>();
+            switch (day)
+            {
+                case "오늘": return 0;
+                case "내일": return 1;
+                case "모레": return 2;
+            }
 
-            weatherDatum.Add(new WeatherDatum() { category = "testCategory1", fcstDate = System.DateTime.Now, fcstTime = "0500", fcstValue = "test1" });
-            weatherDatum.Add(new WeatherDatum() { category = "testCategory2", fcstDate = System.DateTime.Now, fcstTime = "0600", fcstValue = "test2" });
-            weatherDatum.Add(new WeatherDatum() { category = "testCategory3", fcstDate = System.DateTime.Now, fcstTime = "0700", fcstValue = "test3" });
+            return 100;
+        }
 
-            weatherList.ItemsSource = weatherDatum;
-
-            Debug.WriteLine(weatherList.Items.SourceCollection.ToString());
-            Debug.WriteLine(weatherDatum[0].category);
-        }*/
-
-        // 메소드 : WeatherDatum의 형태로 데이터 나타내보기
-        private void DataBindingTest()
+        // 메소드 : WeatherDatum의 형태로 이미지 데이터 나타내보기
+        private void AddWeatherImageAndDateData(string day)
         {
-            List<WeatherDatum> weatherDatum = new List<WeatherDatum>();
+            List<WeatherDatum> weatherImagesDatum = new List<WeatherDatum>();
 
             using (var ctx = new MariaContext())
             {
                 var list = (from w in ctx.Weather where w.category == "SKY" select w).ToList();
+                byte dayNumber = GetNumberForTheDay(day);
 
                 foreach (var l in list)
                 {
-                    if (l.fcstDate.ToString("yyyyMMdd") == System.DateTime.Now.ToString("yyyyMMdd"))
+                    if ((int.Parse(l.fcstDate.ToString("yyyyMMdd")) - int.Parse(System.DateTime.Now.ToString("yyyyMMdd"))) == dayNumber
+                        && int.Parse(l.fcstTime) / 100 % 2 == 0 && int.Parse(l.fcstTime) / 100 > 3) // 짝수시간 정보이면
                     {
-                        Debug.WriteLine(l.fcstDate + " : " + l.fcstTime + " : "  + l.fcstValue);
-                        weatherDatum.Add(new WeatherDatum() { category = l.category, fcstDate = l.fcstDate, fcstTime = l.fcstTime, fcstValue = GetValueToDisplay(l.category, l.fcstValue) });
+                        weatherImagesDatum.Add(new WeatherDatum() { category = l.category, fcstDate = l.fcstDate, fcstTime = int.Parse(l.fcstTime.Substring(0,2)) + "시", fcstValue = GetSkyValueToDisplay(l.category, l.fcstValue) });
                     }
-
                 }
             }
 
-            weatherList.ItemsSource = weatherDatum;
+            weatherImage.ItemsSource = weatherImagesDatum;
 
-            Debug.WriteLine("DataBindingTest DONE");
+            Debug.WriteLine("AddWeatherImageList DONE");
         }
 
-        private string GetValueToDisplay(string category, string fcstValue)
+        // 메소드 : WeatherDatum의 형태로 리스트 데이터 나타내보기
+        private void AddWeatherListData(string day)
+        {
+            List<WeatherListDatum> weatherListDatum = new List<WeatherListDatum>();
+
+            using (var ctx = new MariaContext())
+            {
+                var list = (from w in ctx.Weather where w.category != "SKY" && w.category != "PTY" select w).ToList();
+                byte dayNumber = GetNumberForTheDay(day);
+
+                int i = 0;
+                while (i < list.Count())
+                {
+                    if ((int.Parse(list[i].fcstDate.ToString("yyyyMMdd")) - int.Parse(System.DateTime.Now.ToString("yyyyMMdd"))) == dayNumber
+                        && int.Parse(list[i].fcstTime)/100 %2 == 0 && int.Parse(list[i].fcstTime) / 100 > 3) // 짝수시간 정보이면
+                    {
+                        /*Debug.WriteLine(" - - - - - - - - - - - - \n"
+                                        + "시간 : " + list[i].fcstTime + " " + list[i+1].fcstTime + " " + list[i+2].fcstTime + " \n"
+                                        + "1번째 : " + list[i].category + " - " + list[i].fcstValue 
+                                        + " 2번째 : " + list[i+1].category + " - " + list[i+1].fcstValue 
+                                        + " 3번째 : " + list[i+2].category + " - " + list[i+2].fcstValue
+                                        + "\n - - - - - - - - - - - - \n\n");*/
+
+                        // API Data 순서 - 1번째 TMP, 2번째 POP, 3번째 REH
+                        weatherListDatum.Add(new WeatherListDatum() { fcstTime = list[i].fcstTime, TMP = list[i].fcstValue + "℃", POP = "강수확률 : " + list[i+1].fcstValue + "%", REH = "습도 : " + list[i+2].fcstValue + "%" });
+                    }
+                    i= i+3;
+                }
+            }
+
+            weatherList.ItemsSource = weatherListDatum;
+
+            Debug.WriteLine("AddWeatherListData DONE");
+        }
+
+        private string GetSkyValueToDisplay(string category, string fcstValue)
         {
             switch (category)
             {
                 // 하늘상태
                 case "SKY":
-                    if (fcstValue == "1") return "맑음";
-                    if (fcstValue == "3") return "구름많음";
-                    if (fcstValue == "4") return "흐림";
+                    if (fcstValue == "1") return "Images/sunny.png";
+                    if (fcstValue == "3") return "Images/cloudy.png"; // 추후 구름 2개로 바꾸기
+                    if (fcstValue == "4") return "Images/cloudy.png";
 
                     Debug.WriteLine($"GetValueToDisplay ERROR. category :{category}, fcstValue : {fcstValue}");
                     return null;
-                // 강수확률
-                case "POP":
-                    return fcstValue+"%";
-                // 기온
-                case "TMP":
-                    return fcstValue + "℃";
             }
             return null;
         }

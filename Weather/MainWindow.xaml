@@ -139,7 +139,7 @@
 
             <TextBlock Grid.Column="6"
                        Grid.Row="2"
-                       Grid.ColumnSpan="6"
+                       Grid.ColumnSpan="5"
                        FontSize="35"
                        FontWeight="bold"
                        Padding="0, 20"
@@ -200,66 +200,127 @@
                     Grid.Row="4"
                     Grid.ColumnSpan="15"/>
 
-            <Button  Grid.Column="1"
+            <Button  Name="today"
+                     Grid.Column="1"
                      Grid.Row="4"
                      Content="오늘"
                      Background="#FF798AEA"
                      FontSize="35"
+                     FontWeight="Bold"
+                     Click="ChangeDaytoToday"
                      />
-            <Button  Grid.Column="2"
+            <Button  Name="tomorrow"
+                     Grid.Column="2"
                      Grid.Row="4"
                      Content="내일"
                      Background="#FF798AEA"
                      FontSize="35"
+                     FontWeight="Bold"
+                     Click="ChangeDaytoTomorrow"
                      />
-            <Button  Grid.Column="3"
+            <Button  Name="dayAfterTomorrow"
+                     Grid.Column="3"
                      Grid.Row="4"
                      Content="모레"
                      Background="#FF798AEA"
                      FontSize="35"
+                     FontWeight="Bold"
+                     Click="ChangeDaytoTheDayAfterTomorrow"
                      />
 
-            <ItemsControl Name="weatherList"
+            <Border Grid.Row="5"
+                    Grid.RowSpan="4"
+                    Grid.ColumnSpan="15"
+                    CornerRadius="0, 0, 20, 20"
+                    Background="#FF282246"
+                    />
+
+            <ItemsControl Name="weatherImage"
                           Grid.ColumnSpan="15"
                           Margin="20"
                           Grid.Row="5"
                           Grid.RowSpan="4"
-                          Panel.ZIndex="1"
-                          Background="#FF282246"
                           >
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Border Background="Wheat"
-                                    Height="65"
-                                    Width="100"
-                                    Margin="5">
+                            <Border Grid.Row="5"
+                                Grid.RowSpan="4"
+                                CornerRadius="20"
+                                Margin="10, 0"
+                                Width="146"
+                                Height="210"
+                                Background="#FFEAEDFD">
+                                
+                                <Border
+                                    CornerRadius="20"
+                                    Margin="4"
+                                    Background="#FF7C8ADA"/>
                             </Border>
-                            <StackPanel>
-                                <TextBlock Text="{Binding category}" Foreground="Wheat"/>
-                                <TextBlock Text="{Binding fcstDate}"/>
-                                <TextBlock Text="{Binding fcstTime}"/>
-                                <TextBlock Text="{Binding fcstValue}"/>
-                            </StackPanel>
+
+
+                            <TextBlock Text="{Binding fcstTime}"
+                                       Margin="26, 12"
+                                       FontSize="15"
+                                       FontWeight="Bold"
+                                       />
                             
-                            <StackPanel Grid.Column="2">
-                                <TextBlock Text="{Binding category}"/>
-                                <TextBlock Text="{Binding fcstDate}"/>
-                                <TextBlock Text="{Binding fcstTime}"/>
-                                <TextBlock Text="{Binding fcstValue}"/>
+                            <StackPanel Margin="0,20">
+                                <!-- <TextBlock Text="{Binding fcstDate}"/> -->
+                                <Image Source="{Binding fcstValue}"
+                                       Width="100"
+                                       VerticalAlignment="Top"/>
                             </StackPanel>
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+
+            <ItemsControl Name="weatherList"
+                          Grid.ColumnSpan="15"
+                          Margin="20"
+                          Grid.Row="6"
+                          Grid.RowSpan="3"
+                          >
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Width="140"
+                                    Margin="13,30">
+                            <!-- <TextBlock Text="{Binding fcstTime}"/> -->
+                            <TextBlock Text="{Binding TMP}"
+                                       Foreground="#FF3A052A"
+                                       FontSize="25"
+                                       FontWeight="bold"
+                                       Margin="5"
+                                       HorizontalAlignment="Center"
+                                        />
+                            <TextBlock Text="{Binding POP}"
+                                       Foreground="#FF1D1D84"
+                                       FontWeight="bold"
+                                       FontSize="15"
+                                       Margin="11,7"/>
+                            <TextBlock Text="{Binding REH}"
+                                       FontWeight="bold"
+                                       FontSize="15"
+                                       Margin="11,0"
+                                        />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
         </Grid>
 
+        
     </Border>
 </Window>
