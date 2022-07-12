@@ -5,11 +5,17 @@ using System.Diagnostics;
 using System.Xml;
 using Weather.MariaDb;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Weather.MariaDb.Datums;
+using System.Globalization;
 
 namespace Weather.Controllers
 {
     internal class WeatherController
     {
+        private static readonly HttpClient _httpClient = new HttpClient();
+
         // 메소드 : API에 요청할 URL을 만드는 메소드
         public string GenerateUrl(int nx, int ny)
         {
@@ -24,25 +30,54 @@ namespace Weather.Controllers
         }
 
         // 메소드 : 만들어진 URL로 API로부터 값을 얻어오는 메소드
-        public string GetWeatherApi(string url)
+        public async Task<string?> GetWeatherApi(string url)
         {
-            var request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = "GET";
-            request.Timeout = 1000000;
-
-            string results = string.Empty;
-            HttpWebResponse response;
-
-            using (response = request.GetResponse() as HttpWebResponse)
+            if (string.IsNullOrWhiteSpace(url))
             {
-                StreamReader reader = new StreamReader(response.GetResponseStream());
-                results = reader.ReadToEnd();
+                Debug.WriteLine("url is empty");
+                return null;
             }
 
-            Debug.WriteLine(url);
-            Debug.WriteLine("GetWeatherApi DONE");
+            var rsp = await _httpClient.GetAsync(url);
+            if (!rsp.IsSuccessStatusCode)
+            {
+                Debug.WriteLine("request failed.");
+                return null;
+            }
 
-            return results;
+            var body = await rsp.Content.ReadAsStringAsync();
+            if (string.IsNullOrWhiteSpace(body))
+            {
+                Debug.WriteLine("body is empty");
+                return null;
+            }
+
+            return body;
+
+
+            //var request = (HttpWebRequest)WebRequest.Create(url);
+            //request.Method = "GET";
+            //request.Timeout = 10000000;
+
+            //string results = string.Empty;
+            //HttpWebResponse response;
+
+            //Debug.Write("url : ");
+            //Debug.WriteLine(url);
+
+            //Debug.Write("results : ");
+            //Debug.WriteLine(results);
+
+            //using (response = request.GetResponse() as HttpWebResponse)
+            //{
+            //    StreamReader reader = new StreamReader(response.GetResponseStream());
+            //    results = reader.ReadToEnd();
+            //}
+
+            //Debug.WriteLine(url);
+            //Debug.WriteLine("GetWeatherApi DONE");
+
+            //return results;
         }
 
         // 메소드 : API로 얻은 값을 파싱하여 DB에 넣는 메소드
@@ -51,8 +86,6 @@ namespace Weather.Controllers
             XmlDocument xml = new XmlDocument();
 
             xml.LoadXml(results);
-
-            Debug.WriteLine("results : "+results);
 
             string resultMsg = xml.GetElementsByTagName("resultMsg")[0].InnerText;
 
@@ -66,25 +99,65 @@ namespace Weather.Controllers
 
             using (var ctx = new MariaContext())
             {
+                /*foreach (XmlNode node in nodeList)
+                {
+                    string? category = node["category"]?.InnerText;
+
+                    if (string.IsNullOrWhiteSpace(category))
+                        continue;
+
+                    if (category != "POP" && category != "PTY" && category != "SKY" && category != "TMP" && category != "REH")
+                    {
+                        continue;
+                    }
+
+                    var date = node["fcstDate"]?.InnerText;
+                    var time = node["fcstTime"]?.InnerText;
+                    var value = node["fcstValue"]?.InnerText;
+
+                    var dt = DateTime.ParseExact(date!, "yyyyMMdd", CultureInfo.InvariantCulture);
+
+                    var data = new WeatherDatum();
+                    data.category = category;
+                    data.fcstDate = dt;
+                    data.fcstTime = time ?? "none";
+                    data.fcstValue = value ?? "none";
+
+                    var data2 = new WeatherDatum
+                    {
+                        category = category,
+                        fcstDate = dt,
+                        fcstTime = time ?? "none",
+                        fcstValue = value ?? "none"
+                    };
+
+                    ctx.Weather.Add(data);
+                }
+
+                ctx.SaveChanges();*/
+
                 var conn = ctx.Database.GetDbConnection();
 
                 foreach (XmlNode node in nodeList)
                 {
                     string category = node["category"].InnerText;
+
+                    // * * 원하는 데이터 카테고리 * *
+                    // POP = 강수확률, PTY = 강수형태, SKY = 하늘상태, TMP = 온도, REH = 습도
                     if (category == "POP" || category == "PTY" || category == "SKY" || category == "TMP" || category == "REH")
                     {
                         ctx.Database.ExecuteSqlRaw($"INSERT INTO weather(fcst_date, category, fcst_time, fcst_value)" +
                             $"VALUES({node["fcstDate"].InnerText}, '{category}', '{node["fcstTime"].InnerText}', '{node["fcstValue"].InnerText}')");
-                        //ctx.SaveChanges();
                     }
                     else continue;
-                }
-            }
 
+
+                }
+
+                /*ctx.Weather.Add()*/
+            }
             Debug.WriteLine("ParseXmlAndPutInDb DONE");
         }
-
-        // 메소드 : View가 (새로운) 데이터를 요청하면 (새로운) 데이터를 밀어 넣어주는 메소드
 
         // 메소드 : 새로운 Weather 데이터를 넣기 전 기존 데이터 지우기
         public void DeleteWeatherDataBeforeInsertion()

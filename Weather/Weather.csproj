@@ -16,18 +16,30 @@
 
   <ItemGroup>
     <None Remove="Images\cloudy.png" />
+    <None Remove="Images\question.gif" />
+    <None Remove="Images\question_mark.gif" />
     <None Remove="Images\rainy.png" />
     <None Remove="Images\sunny.png" />
+    <None Remove="Images\very_cloudy.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Images\cloudy.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\question.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\question_mark.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\rainy.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\sunny.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\very_cloudy.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
@@ -60,6 +72,7 @@
     <PackageReference Include="MySqlConnector" Version="2.1.10" />
     <PackageReference Include="NetTopologySuite" Version="2.5.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.1" />
+    <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
 
 </Project>

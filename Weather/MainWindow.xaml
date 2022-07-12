@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Weather"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
         mc:Ignorable="d"
         Title="MainWindow" Height="900" Width="1700"
         WindowStyle="None"
@@ -50,11 +51,16 @@
             <Image Name="MainSKY"
                    Grid.ColumnSpan="6"
                    Grid.RowSpan="4"
-                   Source="/Images/sunny.png"
                    Width="500"/>
+            
+            <Image Name="QuestionMarkGif"
+                   Grid.ColumnSpan="6"
+                   Grid.RowSpan="4"
+                   gif:ImageBehavior.AnimatedSource="Images/question.gif"
+                   Width="700"/>
 
             <ComboBox Grid.Column="5"
-                      Grid.ColumnSpan="4"
+                      Grid.ColumnSpan="3"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
                       Width="300"
@@ -93,7 +99,7 @@
             </ComboBox>
 
             <ComboBox Grid.Column="9"
-                      Grid.ColumnSpan="4"
+                      Grid.ColumnSpan="3"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
                       Width="300"
@@ -109,9 +115,9 @@
                 <ComboBoxItem/>
             </ComboBox>
 
-            <Button Grid.Column="13"
+            <Button Grid.Column="12"
                     Grid.ColumnSpan="2"
-                    Width="130"
+                    Width="120"
                     Height="70"
                     Content="검색"
                     Background="#FF798AEA"
@@ -119,14 +125,37 @@
                     FontWeight="bold"
                     Click="Search"/>
 
-            <TextBlock Name="TimeDataCalled"
+            <Button Grid.Column="14"
+                    Content="×"
+                    Foreground="AliceBlue"
+                    FontSize="70"
+                    Background="Transparent"
+                    Click="Close"
+                    BorderThickness="0"
+                    VerticalAlignment="Top"
+                    />
+
+
+            <TextBlock Name="LilStar"
+                       Text="✦ "
+                       FontSize="27"
+                       Foreground="LightGoldenrodYellow"
                        Grid.Column="11"
                        Grid.Row="1"
-                       Grid.ColumnSpan="4"
+                       Margin="20, 2"
+                       Visibility="Hidden"
+                       />
+
+            <TextBlock Name="TimeDataCalled"
+                       Grid.Column="10"
+                       Grid.Row="1"
+                       Grid.ColumnSpan="5"
                        Margin="40,0"
                        FontSize="30"
                        FontWeight="Bold"
                        Foreground="#FFC7C7F9"
+                       PreviewMouseDown="Close"
+                       HorizontalAlignment="Right"
                        />
 
             <Border Grid.Column="5"
@@ -147,7 +176,7 @@
                        FontWeight="bold"
                        Padding="0, 20"
                        Foreground="#FF798AEA"
-                       Text="지금은 비가 오지 않습니다"
+                       Text="궁금한 지역의 날씨를 검색해보세요"
                        />
 
             <TextBlock Name="MainTMP"
@@ -155,36 +184,36 @@
                        Grid.Row="2"
                        Grid.ColumnSpan="4"
                        VerticalAlignment="Bottom"
-                       FontSize="35"
+                       FontSize="33"
                        Margin="0,0,0,190"
                        Padding="20"
                        Foreground="#FFC7C7F9"
                        FontWeight="Bold"
-                       Text="온도는..."/>
+                       Text="온도는 어떠할까요?"/>
 
             <TextBlock Name="MainPOP"
                        Grid.Column="6"
                        Grid.Row="2"
                        Grid.ColumnSpan="4"
                        VerticalAlignment="Bottom"
-                       FontSize="35"
+                       FontSize="33"
                        Padding="20"
-                       Margin="0,0,0,105"
+                       Margin="0,0,0,120"
                        Foreground="#FFC7C7F9"
                        FontWeight="Bold"
-                       Text="강수확률은..."/>
+                       Text="강수확률은 얼마나 될까요?"/>
 
             <TextBlock Name="MainREH"
                        Grid.Column="6"
                        Grid.Row="2"
                        Grid.ColumnSpan="4"
                        VerticalAlignment="Bottom"
-                       FontSize="35"
-                       Margin="0,0,0,20"
+                       FontSize="33"
+                       Margin="0,0,0,45"
                        Padding="20"
                        Foreground="#FFC7C7F9"
                        FontWeight="Bold"
-                       Text="습도는..."/>
+                       Text="습도는 얼마나 될까요?"/>
 
             <TextBlock Name="Region"
                        Grid.Column="9"
@@ -192,7 +221,6 @@
                        Grid.ColumnSpan="6"
                        FontSize="38"
                        FontWeight="bold"
-                       Text="서울특별시 종로구"
                        Margin="0,0,30,0"
                        HorizontalAlignment="Right"
                        Foreground="#FFC7C7F9"
@@ -214,6 +242,8 @@
                      FontSize="35"
                      FontWeight="Bold"
                      Click="GetDataForToday"
+                     BorderThickness="0"
+                     Visibility="Hidden"
                      />
             <Button  Name="tomorrow"
                      Grid.Column="2"
@@ -223,6 +253,8 @@
                      FontSize="35"
                      FontWeight="Bold"
                      Click="GetDataForTomorrow"
+                     BorderThickness="0"
+                     Visibility="Hidden"
                      />
             <Button  Name="dayAfterTomorrow"
                      Grid.Column="3"
@@ -232,6 +264,8 @@
                      FontSize="35"
                      FontWeight="Bold"
                      Click="GetDataForTheDayAfterTomorrow"
+                     BorderThickness="0"
+                     Visibility="Hidden"
                      />
 
             <Border Grid.Row="5"
@@ -269,7 +303,6 @@
                                     Background="#FF7C8ADA"/>
                             </Border>
 
-
                             <TextBlock Text="{Binding fcstTime}"
                                        Margin="26, 12"
                                        FontSize="15"
@@ -279,7 +312,7 @@
                             <StackPanel Margin="0,20">
                                 <!-- <TextBlock Text="{Binding fcstDate}"/> -->
                                 <Image Source="{Binding fcstValue}"
-                                       Width="100"
+                                       Width="85"
                                        VerticalAlignment="Top"/>
                             </StackPanel>
                         </Grid>
@@ -305,9 +338,9 @@
                             <!-- <TextBlock Text="{Binding fcstTime}"/> -->
                             <TextBlock Text="{Binding TMP}"
                                        Foreground="#FF3A052A"
-                                       FontSize="25"
+                                       FontSize="22"
                                        FontWeight="bold"
-                                       Margin="5"
+                                       Margin="0,20,0,5"
                                        HorizontalAlignment="Center"
                                         />
                             <TextBlock Text="{Binding POP}"

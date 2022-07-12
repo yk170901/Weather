@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Weather.MariaDb.Datums
 {
-    // attribute
-    [Table("Area")] // System.ComponentModel.DataAnnotations.Schema;
+    // Datum : D 드라이브에 있는 Area CSV로부터 Area 관련 값을 읽어 DB에 저장
+    [Table("Area")]
     public partial class AreaDatum
     {
         [Key]

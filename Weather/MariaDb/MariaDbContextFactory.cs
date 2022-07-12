@@ -7,7 +7,7 @@ namespace Weather.MariaDb
 {
     public class MariaDbContextFactory : IDesignTimeDbContextFactory<MariaContext>
     {
-        // Db와 연결하기 위한 메소드
+        // 메소드 : DB 연결 메소드 디자인
         public MariaContext CreateDbContext(string[] args)
         {
             var dbContextBuilder = new DbContextOptionsBuilder<MariaContext>(); // DbContextOptionsBuilder를 인스턴스화하여 주어진 DBContextOptions(=MariaContext)로 추가 구성한다.

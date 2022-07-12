@@ -10,13 +10,14 @@ namespace Weather.MariaDb
     {
         public MariaContext() { }
 
+        // 이거 궁금
         public MariaContext(DbContextOptions<MariaContext> options) : base(options) // 부모 클래스의 생성자에 options를 넣은 걸 상속?
         { }
 
         public virtual DbSet<AreaDatum> Area { get; set; }
-        
         public virtual DbSet<WeatherDatum> Weather { get; set; }
 
+        // 메소드 : DB 연결
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // 만약 opsionsBuilder의 옵션이 구성되지 않았다면
@@ -49,6 +50,7 @@ namespace Weather.MariaDb
 
         }
 
+        // 메소드 : DB 모델 만들기
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AreaDatum>(entity =>
@@ -99,6 +101,11 @@ namespace Weather.MariaDb
             modelBuilder.Entity<WeatherDatum>(entity =>
             {
                 entity.HasNoKey();
+
+                //entity.Property(e => e.id)
+                //    .IsRequired()
+                //    .HasColumnName("ID")
+                //    .hascol
 
                 entity.Property(e => e.fcstDate)
                       .IsRequired()

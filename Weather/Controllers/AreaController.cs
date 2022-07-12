@@ -13,6 +13,8 @@ namespace Weather.Controllers
 {
     internal class AreaController
     {
+
+        // 메소드 : D 드라이브에 있는 CSV를 읽어들여 DB에 해당 값들을 삽입
         public void AreaCsvToDatabase()
         {
             using (var ctx = new MariaContext())
@@ -46,7 +48,7 @@ namespace Weather.Controllers
             Debug.WriteLine("AreaCsvToDatabase DONE");
         }
 
-        // 메소드 : 새로운 Area 데이터를 넣기 전 기존 데이터 지우기
+        // 메소드 : 새로운 Area 데이터를 넣기 전 기존 데이터 삭제
         public void DeleteAreaDataBeforeInsertion()
         {
             using (var ctx = new MariaContext())
